@@ -1,0 +1,158 @@
+.background {
+  background-image: url('/public/bulle.png');
+  background-position: left center;
+  background-repeat:no-repeat;
+  transform: translate(10%);
+  background-size: 30%;
+  width: 100vw;
+  height: 100vh;
+}
+  
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+  
+@font-face {
+  font-family: 'Pico Alphabet';
+  src: url('../public/pico-alphabet.ttf') format('truetype');
+  /* Add more font formats if available */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Klavika';
+  src: url('../public/klavika-medium.otf') format('truetype');
+  /* Add more font formats if available */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh; 
+  transform: translateX(35%);
+  max-width: 450px; 
+  min-width: 400px;
+  padding: 0 20px; 
+  margin-bottom: 10px; 
+}
+
+.welcome-container_two {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh; 
+  transform: translateX(35%);
+  max-width: 450px; 
+  min-width: 400px;
+  padding: 0 20px; 
+}
+
+  .Authenticate {
+    width: 80%;
+    max-width: 450px; 
+    min-width: 400px;
+    position: relative;
+    margin: 0 auto;
+    padding: 1rem;
+    transform: translateX(35%);
+    border: 1px solid black;
+    --height-increase: 0px;
+    height: calc(380px + var(--height-increase));
+    transition: height 0.7s;
+  }
+  
+    .Authenticate.error {
+      --height-increase: 20px; 
+    }
+    
+    .signUp-section {
+      display: flex;
+      align-items: center;
+    }
+    .custom-input {
+      background-color: #fffefe;
+      border: 1px solid black;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .gray-text {
+      color: gray;
+    }
+  
+    .authentication-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+  
+    .authentication-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .error-message {
+      color: red;
+    }
+    .password-input-container {
+      position: relative;
+    }
+    
+    .password-icon {
+      position:absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      transition: top 0.7s; 
+    }
+  
+    .password-icon.error{
+      top: calc(50% - 10px);
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(10px); 
+    }
+    .line-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    .horizontal-line {
+      flex-grow: 1;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+    
+    .or-text {
+      margin: 0 10px;
+      color: #999;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  
+    .create-account-button {
+      margin-top: 20px;
+      display: block;
+      margin: 0 auto; 
+    }
+    

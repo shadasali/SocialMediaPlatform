@@ -1,0 +1,146 @@
+.background-container{
+    background-color: whitesmoke;
+    height: 100vh;
+    background-size:cover;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.17); /* Add a box-shadow */
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+}
+  
+.rounded-search-box{
+    border-radius: 50px;
+    margin-right: 80px;
+    box-shadow:0px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+  .rounded-search-box input {
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 50px; /* Match the parent's border-radius */
+    font-size: 24px;
+    font-weight: normal;
+    color:black;
+  }
+  .rounded-search-box input::placeholder {
+    font-size: 24px; /* Adjust the font size to your preference */
+    font-weight: normal;
+    color:black;
+  }
+
+  .create-story{
+    height: 100px; /* Adjust the height as needed */
+    width: 680px; /* Adjust the width as needed */
+    padding: 10px; /* Optional padding inside the border */
+    box-sizing: border-box; /* Ensure padding is included in dimensions */
+    background-color: white;
+    box-shadow:0px 2px 4px rgba(0, 0, 0, 0.17);
+    border-radius:15px;
+    width:100%;
+    max-width: 680px; 
+    min-width: 660px;
+}
+
+.create-story-button {
+  /* Button styles */
+  height: 80px;
+  width: 660px;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 auto;
+  display: block;
+  line-height: 0px;
+  display: flex; /* Use flex to align content horizontally */
+  justify-content: space-between; /* Add space between icon and text */
+  align-items: center; /* Align items vertically in the center */
+  padding: 0 20px; /* Add padding to the sides */
+  width:100%;
+  max-width: 660px; 
+  min-width: 640px;
+}
+
+.create-story-button:hover {
+background-color: whitesmoke;
+}
+
+.icon-container {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 40px;
+height: 40px;
+border: 2px lightcyan;
+border-radius: 50%;
+background-color: lightcyan;
+}
+
+.create-story-content {
+display: flex;
+align-items: center;
+}
+
+.create-story-text {
+margin: 0; /* Remove the margin */
+font-size: 20px; /* Optional: Adjust the font size as needed */
+}
+
+.avatar{
+  border:1px solid whitesmoke;
+  border-radius:50%;
+}
+
+.avatar:hover{
+  background-color: whitesmoke;
+}
+.whats-on-your-mind{
+  height: 100px; /* Adjust the height as needed */
+  width: 680px; /* Adjust the width as needed */
+  padding: 10px; /* Optional padding inside the border */
+  box-sizing: border-box; /* Ensure padding is included in dimensions */
+  background-color: white;
+  box-shadow:0px 2px 4px rgba(0, 0, 0, 0.17);
+  border-radius:15px;
+  width:100%;
+  max-width: 680px; 
+  min-width: 660px;
+}
+
+.whats-on-your-mind-search-box input{
+    outline: none;
+    padding: 0.5rem;
+    width: 250%;
+    border-radius: 50px; /* Match the parent's border-radius */
+    font-size: 19px;
+    font-weight: normal;
+    background-color:whitesmoke;
+    margin-left: 10px;
+}
+
+.whats-on-your-mind-search-box input:hover{
+  background-color: lightgray;
+}
+
+.whats-on-your-mind-search-box input::placeholder{
+  font-size: 19px; /* Adjust the font size to your preference */
+  font-weight: normal;
+  color:gray;
+}
+
+.horizontal-line {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid gray;
+  margin-left:14px;
+  width:245%
+}

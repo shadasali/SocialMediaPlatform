@@ -1,0 +1,56 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-120%, -60%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 400px;
+    max-width: 100%; 
+  }
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border:none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    transition: background-color 0.3s;
+  }
+  .name-inputs {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .close-button:hover {
+    background-color: #f8f8f8;
+  }
+  
+  .custom-input {
+    background-color: #fffefe;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  @font-face {
+    font-family: 'Klavika Bold';
+    src: url('../public/klavika-bold.otf') format('truetype');
+    /* Add more font formats if available */
+    font-weight: normal;
+    font-style: normal;
+  }
+  .gray-text{
+    color:gray;
+  }
