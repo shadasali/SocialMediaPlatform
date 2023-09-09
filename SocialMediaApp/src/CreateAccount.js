@@ -89,7 +89,7 @@ function CreateAccount({ onClose }) {
   return (
     <div className="popup">
       <button className="close-button" onClick={onClose}>
-        X
+        <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
       </button>
       {currentPage === 1 && (
       <div className="newUser-container">

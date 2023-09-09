@@ -87,6 +87,7 @@ function Authentication () {
                     }
                     localStorage.setItem('avatar', response.data.avatar);
                     localStorage.setItem('firstname', response.data.firstname);
+                    localStorage.setItem('lastname', response.data.lastname);
                     navigate('/home');
                 }else{
 

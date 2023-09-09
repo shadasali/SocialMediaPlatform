@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import "./HomePage.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons'; 
+import WhatsOnYourMind from './WhatsOnYourMind';
 
 function CreateStoryButton() {
     const handleFileUpload = (event) => {
@@ -43,8 +43,19 @@ function CreateStoryButton() {
 function HomePage () {
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleWhatsOnYourMind = () =>{
+      setShowPopup(!showPopup);
+    }
+
     return(
-        <div className="background-container">
+      <div>
+        {showPopup && (
+              <div className="whats-on-your-mind-popup">
+                <WhatsOnYourMind onClose={handleWhatsOnYourMind} />
+            </div>)}
+        <div className={`background-container ${showPopup ? 'blurred-background':''}`}>
             <div className="navbar-container">
                 <nav className="navbar">
                     <a className="navbar-brand" href="/home">
@@ -82,14 +93,16 @@ function HomePage () {
                       type="text"
                       placeholder={`What's on your mind, ${firstnameUser}?`}
                       className="form-control rounded-pill"
+                      onClick={handleWhatsOnYourMind}
+                      readOnly
                     />
                     <hr className="horizontal-line" />
-                  </div>
-                  
+                  </div> 
                 </div>
                 </div>
             </div>
         </div>
+      </div>
     )
 }
 
