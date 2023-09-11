@@ -5,7 +5,7 @@
 }
 
 .background-container.blurred-background{
-  filter:blur(2px);
+  filter:blur(3px);
   pointer-events: none;
 }
 
@@ -50,12 +50,11 @@
     box-shadow:0px 2px 4px rgba(0, 0, 0, 0.17);
     border-radius:15px;
     width:100%;
-    max-width: 680px; 
-    min-width: 660px;
+    max-width: 690px; 
+    min-width: 670px;
 }
 
 .create-story-button {
-  /* Button styles */
   height: 80px;
   width: 660px;
   color: black;
@@ -71,8 +70,8 @@
   align-items: center; /* Align items vertically in the center */
   padding: 0 20px; /* Add padding to the sides */
   width:100%;
-  max-width: 660px; 
-  min-width: 640px;
+  max-width: 670px; 
+  min-width: 650px;
 }
 
 .create-story-button:hover {
@@ -109,16 +108,16 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
   background-color: whitesmoke;
 }
 .whats-on-your-mind{
-  height: 100px; /* Adjust the height as needed */
-  width: 680px; /* Adjust the width as needed */
+  height: 130px; /* Adjust the height as needed */
+  width: 700px; /* Adjust the width as needed */
   padding: 10px; /* Optional padding inside the border */
   box-sizing: border-box; /* Ensure padding is included in dimensions */
   background-color: white;
   box-shadow:0px 2px 4px rgba(0, 0, 0, 0.12);
   border-radius:15px;
   width:100%;
-  max-width: 680px; 
-  min-width: 660px;
+  max-width: 690px; 
+  min-width: 670px;
 }
 
 .whats-on-your-mind-search-box input{
@@ -129,8 +128,11 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
     font-size: 19px;
     font-weight: normal;
     background-color:whitesmoke;
-    margin-left: 10px;
+    margin-left: 8px;
     cursor: pointer;
+    margin-top:10px;
+    max-width: 600px; 
+    min-width: 580px;
 }
 
 .whats-on-your-mind-search-box input:hover{
@@ -148,5 +150,39 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
   border: none;
   border-top: 1px solid gray;
   margin-left:14px;
-  width:245%
+  width:96%;
 }
+
+.add-ons{
+  display: flex;
+}
+
+.photo-video{
+  background-color: white;
+  width:200px;
+  border-radius: 10px;
+  margin-left:7px;
+}
+
+.photo-video:hover {
+  background-color: whitesmoke;
+  }
+
+  .feeling{
+    background-color: white;
+    width:200px;
+    border-radius: 10px;
+  }
+
+  .feeling:hover {
+    background-color: whitesmoke;
+    }
+
+    .live-video{
+      background-color: white;
+      width:200px;
+      border-radius: 10px;
+    }
+    .live-video:hover{
+      background-color: whitesmoke;
+    }

@@ -103,7 +103,7 @@ function CreateAccount({ onClose }) {
             placeholder='First name'
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className={`custom-input ${validationErrors.firstName ? 'input-error' : ''}`} style={{width:'175px', paddingRight: '2.5rem'}}
+            className={`custom-input ${validationErrors.firstName ? 'input-error' : ''}`} style={{width:'200px', paddingRight: '2.5rem'}}
           />
           {validationErrors.firstName && <div className="error-message" style={{fontSize:'13px'}}>{validationErrors.firstName}</div>}
         </label>
@@ -115,7 +115,7 @@ function CreateAccount({ onClose }) {
             placeholder='Last name'
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className={`custom-input ${validationErrors.lastName ? 'input-error' : ''}`} style={{width:'175px', paddingRight: '2.5rem'}}
+            className={`custom-input ${validationErrors.lastName ? 'input-error' : ''}`} style={{width:'200px', paddingRight: '2.5rem'}}
           />
           {validationErrors.lastName && <div className="error-message" style={{fontSize:'13px'}}>{validationErrors.lastName}</div>}
         </label>
@@ -129,7 +129,7 @@ function CreateAccount({ onClose }) {
             placeholder='Email address'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={`custom-input ${validationErrors.email ? 'input-error' : ''}`} style={{width:'360px', paddingRight: '2.5rem'}}
+            className={`custom-input ${validationErrors.email ? 'input-error' : ''}`} style={{width:'410px', paddingRight: '2.5rem'}}
           />
           {validationErrors.email && <div className="error-message" style={{fontSize:'13px'}}>{validationErrors.email}</div>}
           {invalidEmail && <div className="error-message" style={{fontSize:'13px'}}>Please enter a valid email</div>}
@@ -145,7 +145,7 @@ function CreateAccount({ onClose }) {
             placeholder='New password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={`custom-input ${validationErrors.password ? 'input-error' : ''}`} style={{width:'360px', paddingRight: '2.5rem'}}
+            className={`custom-input ${validationErrors.password ? 'input-error' : ''}`} style={{width:'410px', paddingRight: '2.5rem'}}
           />
           {showPassword ? (
             <FaEyeSlash className="password-icon" onClick={togglePasswordVisibility} />

@@ -1,36 +1,33 @@
-.form-control {
-    font-family: system-ui, sans-serif;
-    font-size: 2rem;
-    font-weight: bold;
-    line-height: 1.1;
-    display: grid;
-    grid-template-columns: 1em auto;
-    gap: 0.5em;
-  }
-  input[type="checkbox"] {
-    background-color: #fff;
-    margin: 10;
-    font: inherit;
-    color: currentColor;
-    width: 1.15em;
-    height: 1.15em;
-    border: 0.15em solid currentColor;
-    border-radius: 0.15em;
-    transform: translateY(-0.075em);
-  }
-  input[type="checkbox"]::before {
-    content: "";
-    width: 0.65em;
-    height: 0.65em;
-    transform: scale(1);
-    transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--form-control-color);
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-  }
-  .form-control + .form-control {
-    margin-top: 1em;
-  }
-  
-.interests-checkboxes label{
-    margin: 0px 90px 0px 3px;
+.interests-popup{
+  width:600px;
+  height:620px;
 }
+
+/* Style the custom checkbox label */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-family: 'Klavika';
+  font-size: 17px;
+  outline:none;
+  border:none;
+  width:25px;
+  height:25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Change background color on hover */
+.custom-checkbox:hover {
+  background-color: whitesmoke;
+}
+
+.custom-checkbox input {
+  width: 20px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+}
+

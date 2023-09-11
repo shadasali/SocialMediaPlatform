@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import "./HomePage.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -44,17 +44,31 @@ function HomePage () {
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
     const [showPopup, setShowPopup] = useState(false);
+    const [showGoLivePopup, setShowGoLivePopup] = useState(false);
+    const fileInputRef = useRef(null);
 
     const handleWhatsOnYourMind = () =>{
       setShowPopup(!showPopup);
     }
+    const handlePhotoVideoClick = () => {
+      // Trigger a click event on the file input element
+      fileInputRef.current.click();
+    };
+
+    const handleFileUpload = (event) => {
+      const selectedFile = event.target.files[0];
+    };
+
+    const handleFeelingClick = () => {
+
+    };
+
+    const handleGoLiveButtonClick =() =>{
+      setShowGoLivePopup(!showGoLivePopup);
+    }
 
     return(
       <div>
-        {showPopup && (
-              <div className="whats-on-your-mind-popup">
-                <WhatsOnYourMind onClose={handleWhatsOnYourMind} />
-            </div>)}
         <div className={`background-container ${showPopup ? 'blurred-background':''}`}>
             <div className="navbar-container">
                 <nav className="navbar">
@@ -97,11 +111,52 @@ function HomePage () {
                       readOnly
                     />
                     <hr className="horizontal-line" />
+                    <div className="add-ons">
+                          <div className="feeling" style={{marginLeft:'6px'}}>
+                              <button className="feeling-button btn" 
+                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              onClick={handleFeelingClick}>
+                                <img src="emji-icon.png" alt="emoji-Icon" width="25" height="25" style={{marginBottom:'1px', marginRight:'8px'}}/>
+                                 Feeling/activity
+                              </button>
+                              <span/>
+                          </div>
+                          <div className="photo-video">
+                              <button className="post-photo-video-button btn" 
+                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              onClick={handlePhotoVideoClick}>
+                                <img src="img-icon.png" alt="pic-Icon" width="25" height="25" style={{marginBottom:'7px', marginRight:'8px'}}/>
+                                 Photo/video
+                              </button>
+                              <span/>
+                              <input
+                                  type="file"
+                                  accept="image/*, video/*"
+                                  ref={fileInputRef}
+                                  style={{ display: 'none' }}
+                                  onChange={handleFileUpload}
+                              />
+                          </div>
+                          <div className="live-video">
+                              <button className="post-live-button btn" 
+                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              onClick={handleGoLiveButtonClick}>
+                                <img src="video-icon.png" alt="go-live-Icon" width="25" height="25" style={{marginBottom:'7px', marginRight:'8px'}}/>
+                                 Live video
+                              </button>
+                              <span/>
+                          </div>
+                    </div>
                   </div> 
                 </div>
+                
                 </div>
             </div>
         </div>
+        {showPopup && (
+              <div className="whats-on-your-mind-popup">
+                <WhatsOnYourMind onClose={handleWhatsOnYourMind} />
+            </div>)}
       </div>
     )
 }

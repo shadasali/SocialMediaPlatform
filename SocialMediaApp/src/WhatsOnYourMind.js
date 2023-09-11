@@ -8,11 +8,10 @@ function WhatsOnYourMind ({onClose}){
     const lastnameUser = localStorage.getItem('lastname');
     const [postContent, setPostContent] = useState('');
     
+    
     const handleTextareaChange = (event) => {
         setPostContent(event.target.value);
       };
-    
-
 
     return(
         <div className="whats-on-your-mind-popup">
