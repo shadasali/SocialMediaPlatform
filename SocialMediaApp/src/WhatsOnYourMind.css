@@ -8,9 +8,27 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
     z-index: 1000;
     width: 500px;
-    height: 440px;
+    height: 505px;
     border-radius: 8px;
     max-width: 100%; 
+    opacity: 1; /* Set initial opacity to 1 (fully visible) */
+    transition: opacity 1s ease-in-out; /* Add a transition for opacity */
+  }
+
+  .emoji-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
+    z-index: 1000;
+    width: 500px;
+    height: 505px;
+    border-radius: 8px;
+    max-width: 100%; 
+    overflow-y: auto;
   }
   
   .input-field{
@@ -30,8 +48,230 @@
 .input-field textarea:focus{
     outline-color: transparent;
     box-shadow: none !important;
-    border: none !important;
+    border: white !important;
 }
+.add-to-post{
+  width:460px;
+  height:55px;
+  border-radius:7px;
+  border:1px solid lightgray;
+  box-shadow: 0px 0px 10px rgba(170, 165, 165, 0.05);
+}
+
+.photo-button{
+  margin-left:50px;
+  border-radius:50%;
+}
+
+.photo-button:hover{
+  background-color: whitesmoke;
+}
+
+.tooltip-photo {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  top: 360px; /* Adjust this value to control the distance between the icon and tooltip */
+  transform: translateX(-80%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.photo-button:hover .tooltip-photo{
+  opacity: 1;
+}
+
+.feeling-button{
+  border-radius:50%;
+}
+
+.feeling-button:hover{
+  background-color: whitesmoke;
+}
+
+.back-button{
+  background-color: white;
+  border:none;
+}
+
+.back{
+  border-radius:50%;
+  background-color: lightgray;
+  width:35px;
+  height: 35px;
+}
+
+.back:hover .back-icon{
+  background-color: whitesmoke;
+}
+
+.back-icon{
+  width:25px;
+  height:25px;
+  margin-top: 5px;
+  border-radius:50%;
+}
+
+.horizontal-line-2 {
+  margin: 10px 0;
+  border: none;
+  border-top: 2px solid gray;
+  width:100%;
+}
+
+.emoji-searchbox input{
+  background: whitesmoke;
+}
+
+.row1{
+  display:flex;
+  margin-top:15px;
+}
+.row2{
+  display:flex;
+}
+.row3{
+  display:flex;
+}
+.row4{
+  display:flex;
+}
+.row5{
+  display:flex;
+}
+.row6{
+  display:flex;
+}
+.row7{
+  display:flex;
+}
+.row8{
+  display:flex;
+}
+
+.emoji-button {
+  background-color: white;
+  width:150px;
+  height:50px;
+  border-radius:10px;
+  border: white;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+  transition: lightgray ease-in-out; /* Add a transition effect */
+}
+
+.emoji-button:hover {
+  border-radius:10px;
+  background-color: lightgray; /* Change the background color on hover */
+}
+
+.emoji{
+  background-color:lightgray;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  font-size:1.7em;
+}
+
+.emoji-button:hover .emoji{
+  background-color: whitesmoke;
+}
+
+.emoji-button-text{
+  font-size:18px;
+  margin-left:10px;
+}
+
+.embarrassed-emoji-button{
+  background-color: white;
+  width:170px;
+  height:50px;
+  border-radius:10px;
+  border: white;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+  transition: lightgray ease-in-out; /* Add a transition effect */
+}
+
+.embarrassed-emoji-button:hover {
+  border-radius:10px;
+  background-color: lightgray; /* Change the background color on hover */
+}
+
+.embarrassed-emoji-button:hover .emoji {
+  background-color: whitesmoke; /* Change the background color on hover */
+}
+
+.tooltip-feel {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  top: 360px; /* Adjust this value to control the distance between the icon and tooltip */
+  transform: translateX(-98%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.feeling-button:hover .tooltip-feel{
+  opacity: 1;
+}
+
+.location-button{
+  border-radius:50%;
+}
+
+.location-button:hover{
+  background-color: whitesmoke;
+}
+
+.tooltip-loc {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  top: 360px; /* Adjust this value to control the distance between the icon and tooltip */
+  transform: translateX(-90%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.location-button:hover .tooltip-loc{
+  opacity: 1;
+}
+
+.gif-button{
+  border-radius:50%;
+}
+
+.gif-button:hover{
+  background-color: whitesmoke;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  top: 360px; /* Adjust this value to control the distance between the icon and tooltip */
+  transform: translateX(25%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.gif-button:hover .tooltip {
+  opacity: 1;
+}
+
 .post-button button{
   cursor:pointer;
   font-weight: bold;
@@ -43,6 +283,8 @@
   color: gray;
   font-weight: bold;
 }
+
+
 
   
   

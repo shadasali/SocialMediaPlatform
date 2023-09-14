@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './InterestsPage.css';
 
-function InterestsPage ({firstName, lastName, email, onClose}) {
+function InterestsPage ({firstName, lastName, email, password, onClose}) {
     const [selectedInterests, setSelectedInterests] = useState([]);
     const [noInterests, setNoInterests] = useState(false);
 
@@ -17,7 +17,7 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
 
     const handleInterests = async () =>{
         if (selectedInterests.length !== 0){
-            const response = await axios.post(`http://localhost:8000/userInterests?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&interests=${encodeURIComponent(selectedInterests)}}`);
+            const response = await axios.post(`http://localhost:8000/userInterests?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&password=${encodeURIComponent(password)}&interests=${encodeURIComponent(selectedInterests)}}`);
             onClose();
         }
         else{
@@ -25,18 +25,31 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
         }
 
     }
+
+    const handleClose = () =>{
+        if (selectedInterests.length !== 0){
+            onClose();
+        }
+        else{
+            setNoInterests(true);
+        }
+    }
+
     return(
-        <div className="interests-popup">
+        <div className={`interests-popup ${noInterests ? 'error' : ''}`}>
+            <button className="close-button" onClick={handleClose}>
+                <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
+            </button>
             <h2 style={{fontSize: '28px', fontWeight:'bold'}}> What are your interests?</h2>
             <p className="gray-text"> Select the topics you enjoy following.</p>
             <div className="interests-checkboxes">
             <span>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="sports"
                 name="sports"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Sports')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -44,12 +57,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Sports
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="politics"
                 name="politics"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Politics')}
             />
             <div className="checkbox-content" style={{marginTop:'1px',fontSize:'25px'}}>
@@ -57,12 +70,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Politics
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="music"
                 name="music"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Music')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -70,12 +83,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Music
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="celebrity"
                 name="celebrity"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Celebrity')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -83,12 +96,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Celebrities
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="stocks"
                 name="stocks"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Stocks')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -96,12 +109,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Stocks
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="Religion"
                 name="Religion"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Religion')}
             />
             <div className="checkbox-content" style={{marginTop:'1px',fontSize:'25px'}}>
@@ -109,12 +122,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Religion
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="movies"
                 name="movies"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Movies')}
             />
             <div className="checkbox-content" style={{marginTop:'1px',fontSize:'25px'}}>
@@ -122,12 +135,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Movies
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="Academia"
                 name="Academia"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Academia')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -135,12 +148,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Academia
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="Games"
                 name="Games"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Games')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -148,12 +161,12 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Games
             </div>
             </label>
-            <label className="custom-checkbox" style={{ width: '380px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
                 id="Food"
                 name="Food"
-                style={{ position:'fixed', marginLeft:'330px' }}
+                style={{ position:'fixed', marginLeft:'360px' }}
                 onChange={() => handleInterestToggle('Food')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
@@ -163,7 +176,7 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
             </label>
             </span>
             </div>
-            <div className='submit' style={{marginTop:'5px', marginLeft:'90px'}}>
+            <div className='submit' style={{marginTop:'8px', marginLeft:'107px'}}>
                 <button className='sign-up-button btn btn-success rounded-button' 
                 style={{ fontSize: '17px', width: '200px', borderRadius: '25px', paddingLeft: '20px', paddingRight: '20px' }} 
                 onClick={handleInterests}
@@ -171,7 +184,7 @@ function InterestsPage ({firstName, lastName, email, onClose}) {
                 Submit
                 </button>   
         </div>
-        {noInterests && <div className="error-message" style={{marginLeft:'58px', fontSize:'15px'}}> Please enter your interests. </div>}
+        {noInterests && <div className="error-message" style={{marginLeft:'104px', fontSize:'17px'}}> Please enter your interests. </div>}
         </div>
     );
 }

@@ -96,6 +96,7 @@ function HomePage () {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:'15px'}}>
+                  
                 <div className="whats-on-your-mind d-flex align-items-center">
                     <div className="avatar">
                         <Link to="/newUser">
@@ -112,20 +113,20 @@ function HomePage () {
                     />
                     <hr className="horizontal-line" />
                     <div className="add-ons">
-                          <div className="feeling" style={{marginLeft:'6px'}}>
+                          <div className="feeling" style={{marginLeft:'6px',alignItems:'center'}}>
                               <button className="feeling-button btn" 
-                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              style={{ border:'gray',fontSize: '15px', color:'gray', fontWeight:'bold', width:'200px' }}
                               onClick={handleFeelingClick}>
-                                <img src="emji-icon.png" alt="emoji-Icon" width="25" height="25" style={{marginBottom:'1px', marginRight:'8px'}}/>
-                                 Feeling/activity
+                                <img src="emji-icon.png" alt="emoji-Icon" width="22" height="22" style={{marginBottom:'1px', marginRight:'8px'}}/>
+                                 Feeling
                               </button>
                               <span/>
                           </div>
-                          <div className="photo-video">
+                          <div className="photo-video" style={{alignItems:'center'}}>
                               <button className="post-photo-video-button btn" 
-                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              style={{ border:'gray', fontSize: '15px', color:'gray', fontWeight:'bold', width:'200px' }}
                               onClick={handlePhotoVideoClick}>
-                                <img src="img-icon.png" alt="pic-Icon" width="25" height="25" style={{marginBottom:'7px', marginRight:'8px'}}/>
+                                <img src="img-icon.png" alt="pic-Icon" width="22" height="22" style={{marginBottom:'6px', marginRight:'8px'}}/>
                                  Photo/video
                               </button>
                               <span/>
@@ -137,11 +138,11 @@ function HomePage () {
                                   onChange={handleFileUpload}
                               />
                           </div>
-                          <div className="live-video">
+                          <div className="live-video" style={{alignItems:'center'}}>
                               <button className="post-live-button btn" 
-                              style={{ fontSize: '17px', color:'gray', fontWeight:'bold', width:'200px' }}
+                              style={{ border:'gray', fontSize: '15px', color:'gray', fontWeight:'bold', width:'200px' }}
                               onClick={handleGoLiveButtonClick}>
-                                <img src="video-icon.png" alt="go-live-Icon" width="25" height="25" style={{marginBottom:'7px', marginRight:'8px'}}/>
+                                <img src="video-icon.png" alt="go-live-Icon" width="22" height="22" style={{marginBottom:'1px', marginRight:'8px'}}/>
                                  Live video
                               </button>
                               <span/>

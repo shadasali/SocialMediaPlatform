@@ -19,21 +19,16 @@ const firestore = admin.firestore();
 
 app.use(express.json());
 
-app.post('/createUser', async (req, res) => {
+app.post('/checkUser', async (req, res) => {
   try {
     // Retrieve email and password from the request body
-    const { email, password, fullname } = req.query;
+    const { email} = req.query;
 
+    const userInfoDoc = firestore.collection('userInterests').doc(email);
+    const userInfoSnapshot = await userInfoDoc.get();
     const response = await axios.get(`http://apilayer.net/api/check?access_key=${process.env.MAILBOXLAYER_API_KEY}&email=${encodeURIComponent(email)}`);
 
-      if (response.data.score > 0.5){
-        // Create user account in Firebase Authentication
-        const user = await admin.auth().createUser({
-          email: email,
-          password: password,
-          displayName: fullname,
-        });
-
+      if (response.data.score > 0.5 && !userInfoSnapshot.exists){        
         // Handle success (e.g., send success response)
         res.status(200).json({success:true, message: 'User created successfully' });
       }
@@ -50,9 +45,16 @@ app.post('/createUser', async (req, res) => {
 
 app.post('/userInterests', async(req,res) => {
   try {
-    const { email, firstName, lastName, interests } = req.query;
+    const { email, firstName, lastName, password, interests } = req.query;
     const userInterestsDoc = firestore.collection('userInterests').doc(email);
+    const fullname = `${firstName} ${lastName}`;
     const avatar = '/default-pfp.png';
+    
+    const user = await admin.auth().createUser({
+      email: email,
+      password: password,
+      displayName: fullname,
+    });
 
     const userData = {
       firstName, 

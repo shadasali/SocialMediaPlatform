@@ -1,6 +1,10 @@
 .interests-popup{
   width:600px;
-  height:620px;
+  height: calc(620px + var(--height-increase));;
+}
+
+.interests-popup.error{
+  --height-increase: 20px; 
 }
 
 /* Style the custom checkbox label */

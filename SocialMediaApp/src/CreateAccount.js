@@ -56,7 +56,6 @@ function CreateAccount({ onClose }) {
               setEmailExists(false);
               return;
           }
-          const fullName = `${firstName} ${lastName}`;
           const auth = getAuth();
 
           const signInMethods = await fetchSignInMethodsForEmail(auth, email);
@@ -67,7 +66,7 @@ function CreateAccount({ onClose }) {
               return;
           }
 
-          const response = await axios.post(`http://localhost:8000/createUser?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&fullname=${encodeURIComponent(fullName)}`);
+          const response = await axios.post(`http://localhost:8000/checkUser?email=${encodeURIComponent(email)}`);
 
           if (response.data.success === false){
               setInvalidEmail(true);
@@ -167,7 +166,7 @@ function CreateAccount({ onClose }) {
       </div>
       )}
       {currentPage === 2 && (
-        <InterestsPage firstName={firstName} lastName = {lastName} email = {email} onClose={onClose} />
+        <InterestsPage firstName={firstName} lastName = {lastName} email = {email} password={password} onClose={onClose} />
       )}
     </div>
   );
