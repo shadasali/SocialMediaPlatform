@@ -1,0 +1,47 @@
+.gif-modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
+    z-index: 1000;
+    width: 480px;
+    height: 505px;
+    border-radius: 8px;
+    max-width: 120%; 
+    overflow-y: auto;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+  .gif-container {
+    display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjust the minimum width (150px) and column behavior as needed */
+  grid-gap: 0px; /* Adjust the gap size between GIFs as needed */
+  justify-content: center;
+  align-items: flex-start; /* Align items at the top */
+  padding: 0; /* Remove padding to minimize white space */
+  margin: 0; /* Remove margin to minimize white space */
+  }
+  
+  .gif-container .figure {
+    position: relative;
+  }
+  
+  .gif-container button {
+    border: none;
+    padding: 0;
+    background: none;
+  }
+  
+  .gif-container img {
+    width:100%;
+    height:auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }  

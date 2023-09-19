@@ -20,6 +20,10 @@
     display:none;
   }
 
+  .whats-on-your-mind-popup.overflowY {
+    overflow-y: auto;
+  }
+
   .input-field{
     margin-top:10px;
   }
@@ -165,50 +169,6 @@
   font-weight: bold;
 }
 
-.searchLocationPopup{
-  position: relative;
-  top: -16px;
-  left: 60%;
-  transform: translateX(-50%);
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
-  z-index: 1000;
-  width: 400px;
-  height: 300px;
-  border-radius: 8px;
-  max-width: 120%; 
-}
-
-.autocomplete-container {
-  position: relative;
-  margin-top: 20px;
-}
-
-.autocomplete-results {
-  position: absolute;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
-  top: calc(100% + 10px); /* Adjust the spacing between input and results */
-  left: 0;
-  width: inherit;
-  max-height: 350px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  z-index: 1;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
-
-.autocomplete-item {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.autocomplete-item:hover {
-  background-color: #f0f0f0;
-}
-
 .marker{
   width: 30px;
   height: 30px;
@@ -297,21 +257,4 @@
   height: 300px;
   border-radius: 8px;
   max-width: 100%; 
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.input-container input {
-  flex: 1;
-  padding-right: 40px; /* Adjust this value to control the space for the button */
-}
-
-.input-container button {
-  position: absolute;
-  top: 0;
-  right: 0;
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import EmojisModal from './EmojisModal';
-import axios from 'axios';
+import SearchLocation from './SearchLocation';
 import './WhatsOnYourMind.css';
 import MapGL, {
   Marker,
@@ -11,11 +11,9 @@ import MapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useMap } from "react-map-gl";
+import OpenGif from './OpenGif';
 
-let citySelected;
-let mapOpen;
-
-function Map({ selectedCity, children }) {
+function Map({ selectedCity, children, onOpenMap }) {
   // Mapbox API access token
   const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
@@ -28,57 +26,69 @@ function Map({ selectedCity, children }) {
     longitude: selectedCity ? selectedCity.longitude : 0,
   });
 
-  return (
-  <div className='mapPopup'>
-    <div style={{ height: "100%", width: "100%" }}>
-      <MapGL
-        {...viewport}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
-        mapStyle={MAP_STYLE}
-        onViewportChange={setViewport}
-      >
-        {children}
+  const handleCloseMap = () => {
+    onOpenMap(false);
+  }
 
-        {selectedCity && (
-          <Marker
-            latitude={selectedCity.latitude}
-            longitude={selectedCity.longitude}
-            offsetTop={-20}
-            offsetLeft={-10}
+  return (
+    <div>
+      <div className='mapPopup'>
+        <div style={{ height: "100%", width: "100%" }}>
+          <MapGL
+            {...viewport}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            mapStyle={MAP_STYLE}
+            onViewportChange={setViewport}
           >
-            <div className="marker"></div>
-            <span className="pulse"></span>
-          </Marker>
-        )}
-        <div style={{ position: "absolute", top: 10, right: 10 }}>
-          <NavigationControl />
+            {children}
+
+            {selectedCity && (
+              <Marker
+                latitude={selectedCity.latitude}
+                longitude={selectedCity.longitude}
+                offsetTop={-20}
+                offsetLeft={-10}
+              >
+                <div className="marker"></div>
+                <span className="pulse"></span>
+              </Marker>
+            )}
+            <div style={{ position: "absolute", top: 10, right: 10 }}>
+              <NavigationControl />
+            </div>
+            {selectedCity && (
+              <Source
+                id="historical-precipitation"
+                type="raster"
+                tiles={[
+                  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${process.env.REACT_APP_OPEN_WEATHERMAP_API_KEY}`,
+                ]}
+                tileSize={256}
+              >
+                <Layer
+                  id="precipitation-layer"
+                  type="raster"
+                  source="precipitation"
+                />
+              </Source>
+            )}
+          </MapGL>
+          {selectedCity && (
+            <div
+              className="pin"
+              style={{
+                transform: "translate(50%, 50%)",
+              }}
+            ></div>
+          )}
         </div>
-        {selectedCity && (
-          <Source
-            id="historical-precipitation"
-            type="raster"
-            tiles={[
-              `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${process.env.REACT_APP_OPEN_WEATHERMAP_API_KEY}`,
-            ]}
-            tileSize={256}
+          <button
+          className="file-close-button"
+          onClick={handleCloseMap} 
           >
-            <Layer
-              id="precipitation-layer"
-              type="raster"
-              source="precipitation"
-            />
-          </Source>
-        )}
-      </MapGL>
-      {selectedCity && (
-        <div
-          className="pin"
-          style={{
-            transform: "translate(50%, 50%)",
-          }}
-        ></div>
-      )}
-    </div>
+              <img src="/thin-x-icon.png" alt="" className="x-icon" width="20" height="20" style={{marginBottom:'2px', marginRight:'2px'}}/>
+          </button>
+      </div>
   </div>
   );
 };
@@ -91,110 +101,6 @@ function Navigation() {
     return <div />;
 }
 
-function SearchLocation({onClose}) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [cityOptions, setCityOptions] = useState([]);
-    const [selectedCity, setSelectedCity] = useState();
-    const [searchQueryTemp, setSearchQueryTemp] = useState('');
-    const [selected, setSelected] = useState(false);
-
-    useEffect(() => {
-        const fetchCityOptions = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8000/autocomplete/${encodeURIComponent(searchQueryTemp)}`);
-    
-            const places = response.data.features.map((feature) => ({
-              id: feature.properties.osm_id,
-              name: feature.properties.formatted,
-              country: feature.properties.country,
-            }));
-            
-            if (selected) setSelected(false);
-            else setCityOptions(places);
-          } catch (error) {
-            console.error('Error fetching city options:', error);
-          }
-        };
-    
-        if (searchQueryTemp.length > 0) {
-          fetchCityOptions();
-        } else {
-          setCityOptions([]);
-        }
-      }, [searchQueryTemp]);
-
-      const handleInputChange = (e) => {
-        let inputValue = e.target.value;
-        inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-        setCityOptions([]);
-        setSearchQueryTemp(inputValue);
-      };
-
-      const handleAutoComplete = async (name) => {
-        setSelected(true);
-    
-        setSearchQueryTemp(name);
-        setSearchQuery(name);
-      };
-
-      useEffect(()=>{
-        setSelectedCity(cityOptions.find((city) => city.name === searchQuery));
-      },[searchQuery]);
-
-      useEffect(()=>{
-        const getCoordinates = async() =>{
-            const response = await axios.get(`http://localhost:8000/coordinates/${encodeURIComponent(searchQuery)}`);
-            
-            const { features } = response.data;
-
-            if (features.length > 0) {
-                const [longitude, latitude] = features[0].center;
-                selectedCity.latitude = latitude;
-                selectedCity.longitude = longitude;
-                citySelected=selectedCity;
-                mapOpen=true;
-                onClose();                
-            }
-        }
-        if (selectedCity)
-            getCoordinates();
-      },[selectedCity]);
-
-      return(
-        <div>
-            <div className={`searchLocationPopup`}>
-                <button className="close-button" onClick={onClose}>
-                    <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
-                </button>
-                <div className="autocomplete-container">
-                    <label className="input-container">
-                        <input
-                            type="text"
-                            placeholder="Search Location"
-                            className="form-control rounded-pill" 
-                            value={searchQueryTemp}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-            {searchQueryTemp && cityOptions.length > 0 && (
-                <div className="autocomplete-results">
-                    {cityOptions.map((city) => (
-                    <div
-                        key={city.id}
-                        className="autocomplete-item"
-                        onClick={() => handleAutoComplete(city.name)}
-                    >
-                        {city.name}, {city.country}
-                    </div>
-                    ))}
-                </div>
-                )}
-            </div>
-            </div>
-        </div>
-      );
-}
-
 function WhatsOnYourMind ({onClose, openModal, selection}){
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
@@ -205,9 +111,14 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
     const [selectedEmoji, setSelectedEmoji] = useState(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [openSearch, setOpenSearch] = useState(false);
+    const [openGif, setOpenGif] = useState(false);
+    const [selectedGif, setSelectedGif] = useState();
+    const [openMap, setOpenMap] = useState(false);
+    const [selectedCity, setSelectedCity] = useState();
+
     let minHeight;
     
-    if (mapOpen){
+    if (openMap){
       minHeight = 100;
     }
     else{
@@ -227,7 +138,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
     
 
     const handleClose = () =>{
-      mapOpen=false;
+      setOpenMap(true);
       onClose();
     }
 
@@ -266,17 +177,29 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
       };
 
       const handleLocationClick = () =>{
-        mapOpen=false;
+        setOpenMap(false);
         setOpenSearch(true);
       };
 
       const handleGIFClick = () => {
-
+        setOpenGif(true);
       };
 
       const handleEmojiSelect = (emoji) => {
         setSelectedEmoji(emoji);
       };
+
+      const handleGifSelect = (gif) =>{
+        setSelectedGif(gif);
+      }
+
+      const handleOpenMap = (open) =>{
+        setOpenMap(open);
+      }
+
+      const handleSelectedCity = (city) =>{
+        setSelectedCity(city);
+      }
 
       const handleRemoveMedia = (indexToRemove) => {
         // Create a copy of the selectedFiles array
@@ -295,7 +218,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
 
     return(
         <div>
-            <div className={`whats-on-your-mind-popup ${isModalOpen ?'openModal':''}`}>
+            <div className={`whats-on-your-mind-popup ${isModalOpen || openGif ?'openModal':''} ${selectedGif ? 'overflowY' : ''}`}>
                 <button className="close-button" onClick={handleClose}>
                     <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
                 </button>
@@ -313,9 +236,9 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                         is {selectedEmoji.character} feeling {selectedEmoji.text}. 
                         </div>
                     )}
-                    {mapOpen && (
-                      <div className={`location-status ${citySelected.name.split(',')[1].length > 12 ? 'smallerText':''}`}>
-                        is in {citySelected.name.split(',')[0]}, {(citySelected.name.split(',')[1])}
+                    {openMap && (
+                      <div className={`location-status ${selectedCity.name.split(',')[1].length > 12 ? 'smallerText':''}`}>
+                        is in {selectedCity.name.split(',')[0]}, {(selectedCity.name.split(',')[1])}
                       </div>
                     )}
                 </div>
@@ -323,7 +246,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                 <textarea
                     placeholder={`What's on your mind, ${firstnameUser}?`}
                     className="form-control"
-                    style={{height: (selectedFiles.length > 0 || mapOpen) ?'100px':'300px',resize: 'none', fontSize: selectedFiles.length>0 || mapOpen?'16px':'22px'}}
+                    style={{height: (selectedFiles.length > 0 || openMap || selectedGif) ?'100px':'300px',resize: 'none', fontSize: selectedFiles.length>0 || openMap || selectedGif?'16px':'22px'}}
                     value={postContent}
                     onChange={handleTextareaChange}
                 />
@@ -352,10 +275,15 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                     </div>
                 )}
                 </div>
-                {mapOpen && selectedFiles.length === 0 && (
-                    <Map selectedCity={citySelected}>
-                      <Navigation />
-                    </Map>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'15px'}}>
+                {selectedGif && 
+                  <img key={selectedGif.id} src={selectedGif.src} alt={selectedGif.alt} width='90%'/>
+                }
+                </div>
+                {openMap && selectedFiles.length === 0 && (
+                  <Map selectedCity={selectedCity} onOpenMap={handleOpenMap}>
+                    <Navigation />
+                  </Map>
                 )}
                     <div className="add-to-post">
                     <button className="add-to-post-button btn d-flex justify-content-end"
@@ -383,7 +311,6 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                             <img src="emji-icon.png" alt="emoji-Icon" width="30" height="30" style={{marginTop:'5px'}}/>
                             <span className={`tooltip`} style={{fontSize:'13px'}}>Feeling</span>
                         </button>
-                        
                     </div>
                     
                     <div className="location-button">
@@ -415,7 +342,8 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                 </div>
             </div>
             {isModalOpen && <EmojisModal onClose={() => setIsModalOpen(false)} onSelectEmoji={handleEmojiSelect}/>}
-            {openSearch && <SearchLocation onClose={handleSearchPopupClose}/>}
+            {openSearch && <SearchLocation onClose={handleSearchPopupClose} onOpenMap={handleOpenMap} onSelectedCity={handleSelectedCity}/>}
+            {openGif && <OpenGif onClose={() => setOpenGif(false)} onSelectGif={handleGifSelect}/>}
         </div>
     )
 }
