@@ -1,6 +1,6 @@
 .interests-popup{
   width:600px;
-  height: calc(620px + var(--height-increase));;
+  height: calc(720px + var(--height-increase));
 }
 
 .interests-popup.error{

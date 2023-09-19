@@ -73,6 +73,19 @@ function InterestsPage ({firstName, lastName, email, password, onClose}) {
             <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
+                id="Travel"
+                name="Travel"
+                style={{ position:'fixed', marginLeft:'360px' }}
+                onChange={() => handleInterestToggle('Travel')}
+            />
+            <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
+                <img src="icons8-plane-58.png" alt="Travel" width="37px" height="37px" style={{marginRight:'105px'}}/>
+                Travel
+            </div>
+            </label>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <input
+                type="checkbox"
                 id="music"
                 name="music"
                 style={{ position:'fixed', marginLeft:'360px' }}
@@ -112,6 +125,19 @@ function InterestsPage ({firstName, lastName, email, password, onClose}) {
             <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
+                id="books"
+                name="books"
+                style={{ position:'fixed', marginLeft:'360px' }}
+                onChange={() => handleInterestToggle('Books')}
+            />
+            <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
+                <img src="icons8-open-book-64.png" alt="Books" width="37px" height="37px" style={{marginRight:'105px'}}/>
+                Books
+            </div>
+            </label>
+            <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
+            <input
+                type="checkbox"
                 id="Religion"
                 name="Religion"
                 style={{ position:'fixed', marginLeft:'360px' }}
@@ -138,14 +164,14 @@ function InterestsPage ({firstName, lastName, email, password, onClose}) {
             <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>
             <input
                 type="checkbox"
-                id="Academia"
-                name="Academia"
+                id="Animals"
+                name="Animals"
                 style={{ position:'fixed', marginLeft:'360px' }}
-                onChange={() => handleInterestToggle('Academia')}
+                onChange={() => handleInterestToggle('Animals')}
             />
             <div className="checkbox-content" style={{marginTop:'2px',fontSize:'25px'}}>
-                <img src="academia.png" alt="Academia" width="37px" height="37px" style={{marginRight:'105px'}}/>
-                Academia
+                <img src="icons8-dog-64.png" alt="Animals" width="37px" height="37px" style={{marginRight:'105px'}}/>
+                Animals
             </div>
             </label>
             <label className="custom-checkbox" style={{ width: '410px', height: '50px', display: 'flex', alignItems: 'center', padding: '0 10px', cursor: 'pointer', borderRadius:'10px' }}>

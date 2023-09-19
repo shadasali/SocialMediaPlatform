@@ -97,6 +97,66 @@ app.post('/verifyUser', async (req, res) => {
     }
   });
 
+  app.get('/autocomplete/:searchQuery', async (req, res) =>{
+    const {searchQuery} = req.params;
+
+    const autocompleteDataRef = firestore.collection('autoCompleteOptions').doc(searchQuery);
+    const autocompleteDataSnapshot = await autocompleteDataRef.get();
+
+  if (autocompleteDataSnapshot.exists) {
+    // If the autocomplete options exist, fetch it from Firestore and return as response
+
+    const autocompleteData = autocompleteDataSnapshot.data();
+    res.json(autocompleteData);    
+  } else{
+    try{
+      const response = await axios.get(
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          searchQuery
+        )}&limit=7&apiKey=${process.env.GEOAPIFY_API_KEY}`
+      );
+      
+        await autocompleteDataRef.set(response.data);
+
+        res.json(response.data);
+    } catch(error){
+      console.error('Error fetching suggestions:', error);
+      res.status(500).json({ error: 'Failed to fetch suggestions' });
+    }
+  }
+  });
+
+  app.get('/coordinates/:searchQuery', async (req, res) => {
+    const {searchQuery} = req.params;
+
+    const searchQueryDataRef = firestore.collection('searchQueries').doc(searchQuery);
+    const searchQueryDataSnapshot = await searchQueryDataRef.get();
+
+  if (searchQueryDataSnapshot.exists) {
+    // If the query exists, fetch it from Firestore and return as response
+
+    const searchQueryData = searchQueryDataSnapshot.data();
+    res.json(searchQueryData);
+  } else{
+    try{
+      const response = await axios.get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          searchQuery
+        )}.json?access_token=${process.env.MAPBOX_ACCESS_TOKEN}`
+      );
+      
+      const data = response.data;
+
+      await searchQueryDataRef.set(data);
+
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+      res.status(500).json({ error: 'Failed to fetch coordinates' });
+    }
+  }
+  })
+  
 app.listen(8000, () => {
     console.log('Server is listening on port 8000');
 });

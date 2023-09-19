@@ -1,0 +1,85 @@
+.emoji-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.17);
+    z-index: 1000;
+    width: 550px;
+    height: 505px;
+    border-radius: 8px;
+    max-width: 120%; 
+    overflow-y: auto;
+  }
+  
+.back-button{
+    background-color: white;
+    border:none;
+  }
+  
+  .back{
+    border-radius:50%;
+    background-color: lightgray;
+    width:35px;
+    height: 35px;
+  }
+  
+  .back:hover{
+    background-color: gray;
+  }
+  .back-icon{
+    width:25px;
+    height:25px;
+    margin-top: 5px;
+    border-radius:50%;
+  }
+  
+  .horizontal-line-2 {
+    margin: 10px 0;
+    border: none;
+    border-top: 2px solid gray;
+    width:100%;
+  }
+  
+  .emoji-searchbox{
+    margin-bottom:10px;
+  }
+  
+  .emoji-searchbox input{
+    background: whitesmoke;
+  }
+  
+  .emoji{
+    background-color:lightgray;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    font-size:1.7em;
+  }
+  
+  .emoji-button-text{
+    font-size:18px;
+    margin-left:10px;
+  }
+  
+  .emoji-button{
+    background-color: white;
+    width:170px;
+    height:50px;
+    border-radius:10px;
+    border: white;
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    transition: lightgray ease-in-out; /* Add a transition effect */
+  }
+  
+  .emoji-button:hover {
+    border-radius:10px;
+    background-color: lightgray; /* Change the background color on hover */
+  }
+  
+  .emoji-button:hover .emoji {
+    background-color: whitesmoke; /* Change the background color on hover */
+  }

@@ -17,7 +17,7 @@ function CreateStoryButton() {
       <label htmlFor="file-upload" className="create-story-button">
         <div className="button-content" onClick={() => document.getElementById('file-upload').click()}>
           <div className="create-story-content">
-            <div className="icon-container" style={{ marginTop: '0px', marginLeft: '10px' }}>
+            <div className="icon-container" style={{marginTop: '0px', marginLeft: '10px' }}>
               <FontAwesomeIcon icon={faPlus} style={{ color: 'blue' }} />
             </div>
             <div className="create-story-text" style={{ marginBottom: '20px', marginLeft: '200px', fontSize: '20px', fontWeight: 'bold' }}>
@@ -45,10 +45,14 @@ function HomePage () {
     const firstnameUser = localStorage.getItem('firstname');
     const [showPopup, setShowPopup] = useState(false);
     const [showGoLivePopup, setShowGoLivePopup] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleWhatsOnYourMind = () =>{
       setShowPopup(!showPopup);
+      setOpenModal(false);
+      setSelectedFile(null);
     }
     const handlePhotoVideoClick = () => {
       // Trigger a click event on the file input element
@@ -56,11 +60,13 @@ function HomePage () {
     };
 
     const handleFileUpload = (event) => {
-      const selectedFile = event.target.files[0];
+      setSelectedFile(event.target.files[0]);
+      setShowPopup(true);
     };
 
     const handleFeelingClick = () => {
-
+      setShowPopup(true);
+      setOpenModal(true);
     };
 
     const handleGoLiveButtonClick =() =>{
@@ -156,7 +162,7 @@ function HomePage () {
         </div>
         {showPopup && (
               <div className="whats-on-your-mind-popup">
-                <WhatsOnYourMind onClose={handleWhatsOnYourMind} />
+                <WhatsOnYourMind onClose={handleWhatsOnYourMind} openModal={openModal} selection={selectedFile}/>
             </div>)}
       </div>
     )
