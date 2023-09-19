@@ -113,7 +113,7 @@ app.post('/verifyUser', async (req, res) => {
       const response = await axios.get(
         `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
           searchQuery
-        )}&limit=7&apiKey=${process.env.GEOAPIFY_API_KEY}`
+        )}&limit=30&apiKey=${process.env.GEOAPIFY_API_KEY}`
       );
       
         await autocompleteDataRef.set(response.data);

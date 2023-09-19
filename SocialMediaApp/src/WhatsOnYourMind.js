@@ -12,6 +12,9 @@ import MapGL, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useMap } from "react-map-gl";
 
+let citySelected;
+let mapOpen;
+
 function Map({ selectedCity, children }) {
   // Mapbox API access token
   const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -26,7 +29,7 @@ function Map({ selectedCity, children }) {
   });
 
   return (
-  <>
+  <div className='mapPopup'>
     <div style={{ height: "100%", width: "100%" }}>
       <MapGL
         {...viewport}
@@ -76,7 +79,7 @@ function Map({ selectedCity, children }) {
         ></div>
       )}
     </div>
-  </>
+  </div>
   );
 };
 
@@ -88,17 +91,6 @@ function Navigation() {
     return <div />;
 }
 
-function MapPage({selectedCity}) {
-  return (
-    <div className="mapPopup">
-        <Map selectedCity={selectedCity}>
-        <Navigation />
-        </Map>
-    </div>
-  );
-}
-let citySelected;
-let mapOpen;
 function SearchLocation({onClose}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [cityOptions, setCityOptions] = useState([]);
@@ -213,7 +205,15 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
     const [selectedEmoji, setSelectedEmoji] = useState(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [openSearch, setOpenSearch] = useState(false);
+    let minHeight;
     
+    if (mapOpen){
+      minHeight = 100;
+    }
+    else{
+      minHeight = 300;
+    }
+
     useEffect(()=>{
         if(selection){
             let tempType = selection.type;
@@ -232,8 +232,15 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
     }
 
     const handleTextareaChange = (event) => {
-        setPostContent(event.target.value);
-      };
+      const textarea = event.target;
+
+    // Calculate the new height based on scrollHeight
+      textarea.style.height = 'auto'; // Reset to auto height
+      const newHeight = Math.max(minHeight, textarea.scrollHeight);
+      textarea.style.height = `${newHeight}px`;
+        
+      setPostContent(textarea.value);
+    };
 
 
       const handlePhotoVideoClick = () => {
@@ -288,7 +295,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
 
     return(
         <div>
-            <div className={`whats-on-your-mind-popup ${selectedFiles.length > 0? 'fileSelected':''} ${isModalOpen ?'openModal':''}`}>
+            <div className={`whats-on-your-mind-popup ${isModalOpen ?'openModal':''}`}>
                 <button className="close-button" onClick={handleClose}>
                     <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
                 </button>
@@ -307,8 +314,8 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                         </div>
                     )}
                     {mapOpen && (
-                      <div style={{marginLeft:'2px', fontWeight:'bold'}}>
-                        is in {citySelected.name.split(',')[0]}
+                      <div className={`location-status ${citySelected.name.split(',')[1].length > 12 ? 'smallerText':''}`}>
+                        is in {citySelected.name.split(',')[0]}, {(citySelected.name.split(',')[1])}
                       </div>
                     )}
                 </div>
@@ -316,7 +323,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                 <textarea
                     placeholder={`What's on your mind, ${firstnameUser}?`}
                     className="form-control"
-                    style={{height: selectedFiles.length > 0 ?'100px':'300px',resize: 'none', fontSize: selectedFiles.length>0?'16px':'22px',fontWeight:'normal'}}
+                    style={{height: (selectedFiles.length > 0 || mapOpen) ?'100px':'300px',resize: 'none', fontSize: selectedFiles.length>0 || mapOpen?'16px':'22px'}}
                     value={postContent}
                     onChange={handleTextareaChange}
                 />
@@ -345,6 +352,11 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                     </div>
                 )}
                 </div>
+                {mapOpen && selectedFiles.length === 0 && (
+                    <Map selectedCity={citySelected}>
+                      <Navigation />
+                    </Map>
+                )}
                     <div className="add-to-post">
                     <button className="add-to-post-button btn d-flex justify-content-end"
                     style={{border:'white', fontSize:'18px', marginTop:'5px',marginLeft:'10px', fontWeight:'bold'}}>
@@ -404,7 +416,6 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
             </div>
             {isModalOpen && <EmojisModal onClose={() => setIsModalOpen(false)} onSelectEmoji={handleEmojiSelect}/>}
             {openSearch && <SearchLocation onClose={handleSearchPopupClose}/>}
-            {mapOpen && <MapPage selectedCity={citySelected}/>}
         </div>
     )
 }
