@@ -7,7 +7,7 @@ function OpenGif ({onClose, onSelectGif}){
   
     useEffect(() => {
       // Define your GIPHY API key
-      const apiKey = 'J7xtpB44Z7SXXaMvVKKfarZjNTxIOdPj';
+      const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
   
       // Make sure the searchQuery is not empty
       if (searchQuery.trim() !== '') {
