@@ -101,7 +101,7 @@ function Navigation() {
     return <div />;
 }
 
-function WhatsOnYourMind ({onClose, openModal, selection}){
+function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, selection, onText, onGif, onFileSelect, onLocation, onFeeling}){
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
     const lastnameUser = localStorage.getItem('lastname');
@@ -118,7 +118,7 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
 
     let minHeight;
     
-    if (openMap){
+    if (openMap || selectedGif || selection || selectedFiles.length > 0){
       minHeight = 100;
     }
     else{
@@ -139,6 +139,8 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
 
     const handleClose = () =>{
       setOpenMap(true);
+      onOpenModal(false);
+      onSelectedFile(null);
       onClose();
     }
 
@@ -152,7 +154,6 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
         
       setPostContent(textarea.value);
     };
-
 
       const handlePhotoVideoClick = () => {
         // Trigger a click event on the file input element
@@ -216,15 +217,26 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
         setOpenSearch(false);
       }
 
+      const handlePost = () =>{
+        onText(postContent);
+        onGif(selectedGif);
+        onFileSelect(selectedFiles);
+        onLocation(selectedCity);
+        onFeeling(selectedEmoji);
+        onOpenModal(false);
+        onSelectedFile(null);
+        onClose();
+      }
+
     return(
         <div>
-            <div className={`whats-on-your-mind-popup ${isModalOpen || openGif ?'openModal':''} ${selectedGif ? 'overflowY' : ''}`}>
+            <div className={`whats-on-your-mind-popup ${isModalOpen || openGif ?'openModal':''} ${selectedGif || selection || selectedFiles.length>0? 'overflowY' : ''}`}>
                 <button className="close-button" onClick={handleClose}>
                     <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
                 </button>
                 <div className="heading d-flex align-items-center">
                     <div className="whats-on-your-mind-avatar">
-                        <Link to="/newUser">
+                        <Link to="/profile">
                             <img src={avatarURL} alt="" className="avatar" width="50" height="50" />
                         </Link>
                     </div>
@@ -335,7 +347,9 @@ function WhatsOnYourMind ({onClose, openModal, selection}){
                     <button className="post btn btn-primary d-flex justify-content-center" 
                     type="button"
                     style={{ marginTop:'15px',fontSize: '17px', width: '460px' }}
-                    disabled={!postContent && selectedFiles.length === 0}>
+                    onClick={handlePost}
+                    disabled={!postContent && selectedFiles.length === 0}
+                    >
                         Post
                     </button>
                     <span/>

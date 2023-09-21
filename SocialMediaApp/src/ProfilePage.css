@@ -1,0 +1,12 @@
+.profile-avatar{
+    transform: translate(20%, 30%);
+    display:flex;
+}
+.profile-avatar button{
+    background:none;
+    border:none;
+    outline:none;
+}
+.profile-text{
+    transform: translate(70%, 10%);
+}

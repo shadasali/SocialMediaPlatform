@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./HomePage.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -47,13 +47,43 @@ function HomePage () {
     const [showGoLivePopup, setShowGoLivePopup] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [textSelected, setTextSelected] = useState();
+    const[gifSelected, setGifSelected] = useState();
+    const[filesSelected, setFilesSelected] = useState([]);
+    const[locationSelected, setLocationSelected] = useState();
+    const[feelingSelected, setFeelingSelected] = useState();
     const fileInputRef = useRef(null);
 
     const handleWhatsOnYourMind = () =>{
       setShowPopup(!showPopup);
-      setOpenModal(false);
-      setSelectedFile(null);
     }
+
+    const handleOpenModal = (openmodal)=>{
+      setOpenModal(openmodal);
+    }
+
+    const handleSelectedFile=(selectedfile)=>{
+      setSelectedFile(selectedfile);
+    }
+
+    const handlePostText = (text) => {
+      setTextSelected(text);
+    }
+
+    const handlePostGif = (gif) =>{
+      setGifSelected(gif);
+    }
+
+    const handlePostFile=(files)=>{
+      setFilesSelected(files);
+    }
+    const handlePostLocation = (location)=>{
+      setLocationSelected(location);
+    }
+    const handlePostFeeling=(feeling)=>{
+      setFeelingSelected(feeling);
+    }
+
     const handlePhotoVideoClick = () => {
       // Trigger a click event on the file input element
       fileInputRef.current.click();
@@ -89,7 +119,7 @@ function HomePage () {
                         />
                     </div>
                     <div className="avatar">
-                        <Link to="/newUser">
+                        <Link to="/profile">
                             <img src={avatarURL} alt="" className="avatar" width="50" height="50" />
                         </Link>
                     </div>
@@ -102,10 +132,9 @@ function HomePage () {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:'15px'}}>
-                  
                 <div className="whats-on-your-mind d-flex align-items-center">
                     <div className="avatar">
-                        <Link to="/newUser">
+                        <Link to="/profile">
                             <img src={avatarURL} alt="" className="avatar" width="50" height="50" />
                         </Link>
                     </div>
@@ -156,13 +185,32 @@ function HomePage () {
                     </div>
                   </div> 
                 </div>
-                
+                </div>
+                {textSelected && <div>{textSelected}</div>}
+                {gifSelected && <img key={gifSelected.id} src={gifSelected.src} alt={gifSelected.alt} width='90%'/>}
+                <div className="selected-media-container">
+                {filesSelected.length > 0 && (
+                    <div className="selected-media">
+                        {filesSelected.map((file, index) => (
+                        <div className="selected-media-item" key={index}>
+                            {file.type==='video/mp4' || file.type==='video/webm' || file.type==='video/quicktime' ? (
+                            <video controls width="101%">
+                                <source src={file.url} type={file.type} />
+                                Your browser does not support the video tag.
+                            </video>
+                            ) : (
+                            <img src={file.url} alt={`Selected ${index}`} width="101%"/>
+                            )}
+                        </div>
+                        ))}
+                    </div>
+                )}
                 </div>
             </div>
         </div>
         {showPopup && (
               <div className="whats-on-your-mind-popup">
-                <WhatsOnYourMind onClose={handleWhatsOnYourMind} openModal={openModal} selection={selectedFile}/>
+                <WhatsOnYourMind onClose={()=>setShowPopup(!showPopup)} openModal={openModal} onOpenModal={handleOpenModal} onSelectedFile={handleSelectedFile} selection={selectedFile} onText={handlePostText} onGif={handlePostGif} onFileSelect={handlePostFile} onLocation={handlePostLocation} onFeeling={handlePostFeeling}/>
             </div>)}
       </div>
     )
