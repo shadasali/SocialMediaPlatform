@@ -63,11 +63,9 @@ function OpenGif ({onClose, onSelectGif}){
         </div>
         <div className="gif-container">  
           {gifs.map((gif) => (
-            <div className='figure'>
               <button key={gif.id} style={{border:'none', background:'none', marginRight:'10px'}} onClick={() => handleGifClick(gif)}>
                   <img key={gif.id} src={gif.images.fixed_height.url} alt={gif.title} />
               </button>
-            </div>
           ))}
         </div>
       </div>
