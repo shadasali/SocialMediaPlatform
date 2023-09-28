@@ -3,105 +3,11 @@ import { Link } from 'react-router-dom';
 import EmojisModal from './EmojisModal';
 import SearchLocation from './SearchLocation';
 import './WhatsOnYourMind.css';
-import MapGL, {
-  Marker,
-  NavigationControl,
-  Source,
-  Layer,
-} from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { useMap } from "react-map-gl";
 import OpenGif from './OpenGif';
+import Map from './map';
+import Navigation from './navigation';
 
-function Map({ selectedCity, children, onOpenMap }) {
-  // Mapbox API access token
-  const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
-
-  // Mapbox map style
-  const MAP_STYLE = "mapbox://styles/mapbox/outdoors-v12";
-
-  // Mapbox map viewport
-  const [viewport, setViewport] = useState({
-    latitude: selectedCity ? selectedCity.latitude : 0,
-    longitude: selectedCity ? selectedCity.longitude : 0,
-  });
-
-  const handleCloseMap = () => {
-    onOpenMap(false);
-  }
-
-  return (
-    <div>
-      <div className='mapPopup'>
-        <div style={{ height: "100%", width: "100%" }}>
-          <MapGL
-            {...viewport}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            mapStyle={MAP_STYLE}
-            onViewportChange={setViewport}
-          >
-            {children}
-
-            {selectedCity && (
-              <Marker
-                latitude={selectedCity.latitude}
-                longitude={selectedCity.longitude}
-                offsetTop={-20}
-                offsetLeft={-10}
-              >
-                <div className="marker"></div>
-                <span className="pulse"></span>
-              </Marker>
-            )}
-            <div style={{ position: "absolute", top: 10, right: 10 }}>
-              <NavigationControl />
-            </div>
-            {selectedCity && (
-              <Source
-                id="historical-precipitation"
-                type="raster"
-                tiles={[
-                  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${process.env.REACT_APP_OPEN_WEATHERMAP_API_KEY}`,
-                ]}
-                tileSize={256}
-              >
-                <Layer
-                  id="precipitation-layer"
-                  type="raster"
-                  source="precipitation"
-                />
-              </Source>
-            )}
-          </MapGL>
-          {selectedCity && (
-            <div
-              className="pin"
-              style={{
-                transform: "translate(50%, 50%)",
-              }}
-            ></div>
-          )}
-        </div>
-          <button
-          className="file-close-button"
-          onClick={handleCloseMap} 
-          >
-              <img src="/thin-x-icon.png" alt="" className="x-icon" width="20" height="20" style={{marginBottom:'2px', marginRight:'2px'}}/>
-          </button>
-      </div>
-  </div>
-  );
-};
-
-function Navigation() {
-    const { current: map } = useMap();
-  
-    map.flyTo({ zoom: 8 });
-  
-    return <div />;
-}
-
-function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, selection, onText, onGif, onFileSelect, onLocation, onFeeling}){
+function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, selection, onPost}){
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
     const lastnameUser = localStorage.getItem('lastname');
@@ -115,6 +21,7 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
     const [selectedGif, setSelectedGif] = useState();
     const [openMap, setOpenMap] = useState(false);
     const [selectedCity, setSelectedCity] = useState();
+    const [WOMCall, setWOMCall] = useState(true);
 
     let minHeight;
     
@@ -218,11 +125,15 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
       }
 
       const handlePost = () =>{
-        onText(postContent);
-        onGif(selectedGif);
-        onFileSelect(selectedFiles);
-        onLocation(selectedCity);
-        onFeeling(selectedEmoji);
+        const postData = {
+          text: postContent,
+          gif: selectedGif,
+          files: selectedFiles,
+          location: selectedCity,
+          feeling: selectedEmoji,
+        };
+    
+        onPost(postData);
         onOpenModal(false);
         onSelectedFile(null);
         onClose();
@@ -293,7 +204,7 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
                 }
                 </div>
                 {openMap && selectedFiles.length === 0 && (
-                  <Map selectedCity={selectedCity} onOpenMap={handleOpenMap}>
+                  <Map selectedCity={selectedCity} onOpenMap={handleOpenMap} WOMCall={WOMCall}>
                     <Navigation />
                   </Map>
                 )}

@@ -10,3 +10,12 @@
 .profile-text{
     transform: translate(70%, 10%);
 }
+
+.horizontal-line-2 {
+    margin: 10px 0;
+    border: none;
+    border-top: 2px solid black;
+    margin-top: 85px;
+    margin-left:248px;
+    width:65%;
+  }

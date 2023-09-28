@@ -2,6 +2,7 @@
     background-color: whitesmoke;
     height: 100vh;
     background-size:cover;
+    overflow-y:auto;
 }
 
 .background-container.blurred-background{
@@ -186,4 +187,18 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
     }
     .live-video:hover{
       background-color: whitesmoke;
+    }
+
+    .post-content{
+      padding: 10px; /* Optional padding inside the border */
+  box-sizing: border-box; /* Ensure padding is included in dimensions */
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  border-radius: 15px;
+  max-width: 690px;
+  min-width: 670px;
+  z-index: 1000;
+  overflow-y: auto;
+  word-wrap: break-word;
     }

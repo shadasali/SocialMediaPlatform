@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'; 
 import WhatsOnYourMind from './WhatsOnYourMind';
+import Map from './map';
+import Navigation from './navigation';
 
 function CreateStoryButton() {
     const handleFileUpload = (event) => {
@@ -43,15 +45,13 @@ function CreateStoryButton() {
 function HomePage () {
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
+    const lastnameUser=localStorage.getItem('lastname');
     const [showPopup, setShowPopup] = useState(false);
     const [showGoLivePopup, setShowGoLivePopup] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [textSelected, setTextSelected] = useState();
-    const[gifSelected, setGifSelected] = useState();
-    const[filesSelected, setFilesSelected] = useState([]);
-    const[locationSelected, setLocationSelected] = useState();
-    const[feelingSelected, setFeelingSelected] = useState();
+    const [posts, setPosts] = useState([]);
+
     const fileInputRef = useRef(null);
 
     const handleWhatsOnYourMind = () =>{
@@ -66,24 +66,20 @@ function HomePage () {
       setSelectedFile(selectedfile);
     }
 
-    const handlePostText = (text) => {
-      setTextSelected(text);
-    }
-
-    const handlePostGif = (gif) =>{
-      setGifSelected(gif);
-    }
-
-    const handlePostFile=(files)=>{
-      setFilesSelected(files);
-    }
-    const handlePostLocation = (location)=>{
-      setLocationSelected(location);
-    }
-    const handlePostFeeling=(feeling)=>{
-      setFeelingSelected(feeling);
-    }
-
+    const handlePost = (postData) => {
+      // Append the new post to the existing list of posts
+      const newPost = {
+        content: postData.text,
+        gif: postData.gif,
+        files: postData.files,
+        location: postData.location,
+        feeling: postData.feeling,
+      };
+  
+      // Update the state with the new list of posts
+      setPosts([...posts, newPost]);
+    };
+  
     const handlePhotoVideoClick = () => {
       // Trigger a click event on the file input element
       fileInputRef.current.click();
@@ -186,31 +182,63 @@ function HomePage () {
                   </div> 
                 </div>
                 </div>
-                {textSelected && <div>{textSelected}</div>}
-                {gifSelected && <img key={gifSelected.id} src={gifSelected.src} alt={gifSelected.alt} width='90%'/>}
-                <div className="selected-media-container">
-                {filesSelected.length > 0 && (
-                    <div className="selected-media">
-                        {filesSelected.map((file, index) => (
-                        <div className="selected-media-item" key={index}>
-                            {file.type==='video/mp4' || file.type==='video/webm' || file.type==='video/quicktime' ? (
-                            <video controls width="101%">
-                                <source src={file.url} type={file.type} />
-                                Your browser does not support the video tag.
-                            </video>
-                            ) : (
-                            <img src={file.url} alt={`Selected ${index}`} width="101%"/>
-                            )}
+                  { posts.length > 0 && (
+                  posts.map((post, index) => (
+                  <div className="post-content" key={index} style={{marginLeft:'375px',marginTop:'15px'}}>
+                    <div className="content" style={{ display: 'flex' }}>
+                      <div className="avatar">
+                        <Link to="/profile">
+                          <img src={avatarURL} alt="" className="avatar" width="50" height="50" />
+                        </Link>
+                      </div>
+                      <div className="userName" style={{ marginTop: '10px', marginLeft: '10px', fontWeight: 'bold' }}>
+                        {`${firstnameUser} ${lastnameUser}`}
+                      </div>
+                      {post.feeling && (
+                        <div className="feeling-status" style={{ marginTop: '10px', marginLeft: '2px', fontWeight: 'bold' }}>
+                          is {post.feeling.character} feeling {post.feeling.text}.
                         </div>
-                        ))}
+                      )}
+                      {post.location && (
+                        <div className={`location-status ${post.location.name.split(',')[1].length > 12 ? 'smallerText' : ''}`} style={{ marginTop: '10px' }}>
+                          is in {post.location.name.split(',')[0]}, {post.location.name.split(',')[1]}
+                        </div>
+                      )}
                     </div>
-                )}
-                </div>
+                    <div style={{ marginLeft: '10px' }}>{post.content && <div>{post.content}</div>}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '15px' }}>
+                      {post.gif && <img key={post.gif.id} src={post.gif.src} alt={post.gif.alt} width="90%" />}
+                    </div>
+                    <div className="selected-media-container">
+                      {post.files.length > 0 && (
+                        <div className="selected-media">
+                          {post.files.map((file, fileIndex) => (
+                            <div className="selected-media-item" key={fileIndex}>
+                              {file.type === 'video/mp4' || file.type === 'video/webm' || file.type === 'video/quicktime' ? (
+                                <video controls width="101%">
+                                  <source src={file.url} type={file.type} />
+                                  Your browser does not support the video tag.
+                                </video>
+                              ) : (
+                                <img src={file.url} alt={`Selected ${fileIndex}`} width="101%" />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {post.location && post.files.length === 0 && (
+                      <Map selectedCity={post.location}>
+                        <Navigation />
+                      </Map>
+                    )}
+                    </div>
+                  )))}
             </div>
         </div>
         {showPopup && (
               <div className="whats-on-your-mind-popup">
-                <WhatsOnYourMind onClose={()=>setShowPopup(!showPopup)} openModal={openModal} onOpenModal={handleOpenModal} onSelectedFile={handleSelectedFile} selection={selectedFile} onText={handlePostText} onGif={handlePostGif} onFileSelect={handlePostFile} onLocation={handlePostLocation} onFeeling={handlePostFeeling}/>
+                <WhatsOnYourMind onClose={()=>setShowPopup(!showPopup)} openModal={openModal} onOpenModal={handleOpenModal} onSelectedFile={handleSelectedFile} selection={selectedFile} onPost={handlePost}/>
             </div>)}
       </div>
     )
