@@ -104,6 +104,8 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
 .avatar{
   border:1px solid whitesmoke;
   border-radius:50%;
+  height:50px;
+  width:50px;
 }
 
 .avatar:hover{
@@ -170,35 +172,46 @@ font-size: 20px; /* Optional: Adjust the font size as needed */
   background-color: whitesmoke;
   }
 
-  .feeling{
-    background-color: white;
-    width:200px;
-    border-radius: 10px;
+.feeling{
+  background-color: white;
+  width:200px;
+  border-radius: 10px;
+}
+
+.feeling:hover {
+  background-color: whitesmoke;
   }
 
-  .feeling:hover {
-    background-color: whitesmoke;
-    }
+.live-video{
+  background-color: white;
+  width:200px;
+  border-radius: 10px;
+}
+.live-video:hover{
+  background-color: whitesmoke;
+}
 
-    .live-video{
-      background-color: white;
-      width:200px;
-      border-radius: 10px;
-    }
-    .live-video:hover{
-      background-color: whitesmoke;
-    }
+.post-content-container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .post-content{
-      padding: 10px; /* Optional padding inside the border */
+.post-content{
+  padding: 10px; /* Optional padding inside the border */
   box-sizing: border-box; /* Ensure padding is included in dimensions */
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
   width: 100%;
   border-radius: 15px;
   max-width: 690px;
+  margin-top:15px;
   min-width: 670px;
-  z-index: 1000;
   overflow-y: auto;
   word-wrap: break-word;
-    }
+}
+
+.location-statusHome{
+  margin-left: 2px;
+  font-weight: bold;
+}

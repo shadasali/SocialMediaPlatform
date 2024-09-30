@@ -6,11 +6,15 @@ import './WhatsOnYourMind.css';
 import OpenGif from './OpenGif';
 import Map from './map';
 import Navigation from './navigation';
+import { storage } from "./firebase";
+import { ref, uploadString } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid';
 
 function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, selection, onPost}){
     const avatarURL = localStorage.getItem('avatar');
     const firstnameUser = localStorage.getItem('firstname');
     const lastnameUser = localStorage.getItem('lastname');
+    const userEmail = localStorage.getItem('email');
     const [postContent, setPostContent] = useState('');
     const fileInputRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(openModal);
@@ -23,6 +27,7 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
     const [selectedCity, setSelectedCity] = useState();
     const [WOMCall, setWOMCall] = useState(true);
 
+    // Get a reference to the Firebase Storage service
     let minHeight;
     
     if (openMap || selectedGif || selection || selectedFiles.length > 0){
@@ -124,7 +129,75 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
         setOpenSearch(false);
       }
 
-      const handlePost = () =>{
+      async function query(data) {
+        const response = await fetch(
+          "https://api-inference.huggingface.co/models/facebook/bart-large-mnli",
+          {
+            headers: { Authorization: "Bearer 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" },
+            method: "POST",
+            body: JSON.stringify(data),
+          }
+        );
+        const result = await response.json();
+        return result;
+      }
+
+      async function uploadPostToStorage(predictedLabel, userEmail, postData) {
+        try {
+          const postDataString = JSON.stringify(postData);
+          const postId = uuidv4();
+          // Create a storage reference to the predicted label folder
+          const labelFolderRef = ref(storage, `${predictedLabel}`);
+          const userFileRef = ref(labelFolderRef, `${userEmail} ${postId}.json`);
+          
+          // Upload the post content as a text file
+          await uploadString(userFileRef, postDataString, 'raw');
+      
+          console.log('Post uploaded successfully!');
+        } catch (error) {
+          console.error('Error uploading post:', error);
+        }
+      }
+      
+      const handlePost = async () =>{
+        let predictedLabel;
+        const data = {
+          inputs: postContent,
+          parameters: {
+            candidate_labels: ["sports", "politics", "travel", "music", "celebrities", "stocks", "books", "religion", "movies", "other"],
+          },
+        };
+
+        try {
+          const response = await query(data);
+
+          
+          // Extract the predicted label and probabilities
+          const predictedLabels = response.labels;
+          const predictedScores = response.scores;
+
+          const data2={
+            inputs:postContent,
+            parameters:{
+              candidate_labels:[predictedLabels[0], predictedLabels[1], predictedLabels[2], "animals", "games", "food"],
+            },
+          }
+          
+          const response2 = await query(data2);
+          const predictedLabels2= response2.labels;
+          const predictedScores2 = response2.scores;
+
+          if (predictedScores2[0] > predictedScores[0]){
+            predictedLabel = predictedLabels2[0];
+          }
+          else{
+            predictedLabel = predictedLabels[0]
+          }
+
+        } catch (error) {
+          console.error("Error:", error);
+        }
+
         const postData = {
           text: postContent,
           gif: selectedGif,
@@ -132,8 +205,12 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
           location: selectedCity,
           feeling: selectedEmoji,
         };
-    
-        onPost(postData);
+
+        uploadPostToStorage(predictedLabel, userEmail, postData);
+
+        if (predictedLabel > 0.5){
+          onPost(postData);
+        }
         onOpenModal(false);
         onSelectedFile(null);
         onClose();
@@ -141,7 +218,7 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
 
     return(
         <div>
-            <div className={`whats-on-your-mind-popup ${isModalOpen || openGif ?'openModal':''} ${selectedGif || selection || selectedFiles.length>0? 'overflowY' : ''}`}>
+            <div className={`whats-on-your-mind-popup ${isModalOpen || openGif ?'openModal':''} ${selectedGif || selection || selectedFiles.length>0? 'overflowY' : ''} ${selectedCity && selectedCity.name.split(',')[0].length + selectedCity.name.split(',')[1].length > 30? 'overflowX':''}`}>
                 <button className="close-button" onClick={handleClose}>
                     <img src="/x-icon.webp" alt="" className="x-icon" width="25" height="25" />
                 </button>
@@ -160,7 +237,7 @@ function WhatsOnYourMind ({onClose, openModal, onOpenModal, onSelectedFile, sele
                         </div>
                     )}
                     {openMap && (
-                      <div className={`location-status ${selectedCity.name.split(',')[1].length > 12 ? 'smallerText':''}`}>
+                      <div className={`location-status ${selectedCity.name.split(',')[1].length > 12 ? 'smallerText':''} ${selectedCity.name.split(',')[0].length + selectedCity.name.split(',')[1].length > 30? 'shift':''}`}>
                         is in {selectedCity.name.split(',')[0]}, {(selectedCity.name.split(',')[1])}
                       </div>
                     )}

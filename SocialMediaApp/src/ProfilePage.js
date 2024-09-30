@@ -15,7 +15,7 @@ function ProfilePage (){
                     </button>
                     <h2 className='profile-text'>{firstnameUser} {lastnameUser}</h2>
                 </div>
-                <hr className="horizontal-line-2" />
+                <hr className="horizontal-line-3" />
             </div>
         </div>
     );

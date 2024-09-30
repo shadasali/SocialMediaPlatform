@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import "./HomePage.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -182,9 +182,10 @@ function HomePage () {
                   </div> 
                 </div>
                 </div>
+                <div className='post-content-container'>
                   { posts.length > 0 && (
                   posts.map((post, index) => (
-                  <div className="post-content" key={index} style={{marginLeft:'375px',marginTop:'15px'}}>
+                  <div className="post-content" key={index}>
                     <div className="content" style={{ display: 'flex' }}>
                       <div className="avatar">
                         <Link to="/profile">
@@ -200,7 +201,7 @@ function HomePage () {
                         </div>
                       )}
                       {post.location && (
-                        <div className={`location-status ${post.location.name.split(',')[1].length > 12 ? 'smallerText' : ''}`} style={{ marginTop: '10px' }}>
+                        <div className={`location-statusHome`} style={{ marginTop: '10px' }}>
                           is in {post.location.name.split(',')[0]}, {post.location.name.split(',')[1]}
                         </div>
                       )}
@@ -234,6 +235,7 @@ function HomePage () {
                     )}
                     </div>
                   )))}
+                </div>
             </div>
         </div>
         {showPopup && (
